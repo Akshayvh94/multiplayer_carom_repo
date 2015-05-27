@@ -1,0 +1,39 @@
+\nonstopmode
+\documentclass{article}
+\title{CSP 301\\ Assignment 3}
+\author{\bf Chain Singh(2010CS10213)\\\bf Shantanu Choudhary(2010CS50295)}
+\date{th September, 2011}
+\setlength{\parindent}{0pt}
+\pdfpagewidth 9.0in
+\pdfpageheight 11in
+\begin{document}
+\maketitle
+\section*{Problem Specification}
+\label{sec:Problems}
+\item Developing multiplayer network mini-Carrom game through graphics. The no. of coins is restricted to 5 --- 2 white, 2 black, 1 red.
+\item The game will allow the user to choose between playing locally or from different machines on a the network. The game can be played by either 2 or 4 players � each being a human or a computer player. The player having the maximum number of points wins.
+\item On each turn, the player should be allowed to choose his strike using three parameters : The position of the striker, the angle of the strike and the force with which to strike. You may choose to allow keyboard or mouse (or both) for this input, but the interface must be graphical in nature. Take care to make illegal strike positions & angles impossible to be chosen.
+\item Each player may be chosen to have one of 3 levels of expertise : Newbie, Amateur, Expert.
+\item For a computer player, the level of expertise decides the probability with which the strike fails to hit a chosen target coin (by making the strike position/angle/force deviate from what would have hit the target coin in the correct direction).
+\item Computer player needs to have a strategy for playing � a way to choose target coin to pocket or a target in case of a non-pocketing strike. It should have the ability to choose the striker position, strike angle & force intelligently.
+\section*{\\\\Progress made  till date(26th September 2011)}
+\item The Carrom board has been drawn. The Carrom Board contains a Striker and one coin which is placed by default somewhere in the board. The user interface includes inputs for changing the position of the striker, the power with which the striker is to be hit and the direction in which the striker is to be hit. The potting of the striker and the coin has been implemented as well.
+\item Through networking, two players can play on two different machines on eating as a server and the other a client.
+\item Physics involved in actual Carrom ,and the collisions between the striker and the coin ,occur in accordance with the laws of physics. The factor of the coefficient of restitution which comes in the picture in case of inelastic collisions has also been done. Frictional forces and collisions with the wall have been implemented.
+\section*{How it is  implemented}
+\subsection*{The Carrom Board}
+\item The game consists of a carrom board implemented through the primitive shapes like lines , triangles and quadrilaterals. Circles when required have been generated through radial triangles(for filled circles) and tangential lines(for an empty circle).
+\item The striker and the coin are drawn as circle according to the method as described above. The velocity vector is implemented in the cartesian coordinate  form .There is declared an global array in which the co-ordinates and velocity of the striker have been defined.
+\subsection*{Networking}
+\item  The programmer basically needs to know how to open a socket and proceed.While writing a single client server,the server creates a socket using socket() function.Binds it to a certain port using bind() function.After that it listens for new connection using listen() function and accepts any incoming connections using accept().When the game begins the server sends the initial value of the striker to the client and also sends any further changes as desired by user.Once the user hits, the game begins.
+\item There are two threads each monitoring send and received data.Once the data is received by the client it processes the data and draws the board components accordingly.Only the changes need to be relayed to the clients rest of the computations can be done by the clients themselves.
+\subsection*{Motion}
+\item Motion has been achieved through the timer function. The timer function is called over after a time of 1 milli-seconds. The timer function in turn calls the trigger function which updates the positions and the velocities. After the updation of the positions, the display function is called which generates the required image.
+\section*{Inputting}
+\item The Input is taken through the keyboard. The various controls are:
+\item {\bf MOVE THE STRIKER}: {\bf Press " l" for left motion} and "{\bf r}" for rightwards motion of the striker when placed on the hitting line.
+\item {\bf HITTING FORCE}: "{\bf p}" for increasing the hitting force . It will be seen through power reader .
+\item {\bf CHANGING THE ANGLE FOR HITTING}: First place the Striker at the required position . This fixes the position of the striker. Now to change the angle {\bf Press "d" to move the angle to a clockwise sirection} and {\bf Press "i" to move the angle to a anticlockwise direction}.
+\item {\bf HITTING}: {\bf Press 'h' to finally hit the striker in the desired direction.}
+\end{enumerate}
+\end{document}

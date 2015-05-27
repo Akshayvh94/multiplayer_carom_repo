@@ -1,0 +1,171 @@
+ /*float hole_1_x ;
+        float hole_1_y ; 
+        float hole_2_x ; 
+        float hole_2_y ; 
+         
+        switch(turn)
+        {
+                case 0 :
+                        hole_1_x = hole_2_center_x;
+                        hole_1_y = hole_2_center_y;
+                        hole_2_x = hole_3_center_x;
+                        hole_2_y = hole_3_center_y;
+                   
+                case 1 :
+                        hole_1_x = hole_3_center_x;
+                        hole_1_y = hole_3_center_y;
+                        hole_2_x = hole_0_center_x;
+                        hole_2_y = hole_0_center_y;
+
+                case 2 :     
+                        hole_1_x = hole_0_center_x;
+                        hole_1_y = hole_0_center_y;
+                        hole_2_x = hole_1_center_x;
+                        hole_2_y = hole_1_center_y;
+
+                case 3 :        
+                        hole_1_x = hole_1_center_x;
+                        hole_1_y = hole_1_center_y;
+                        hole_2_x = hole_2_center_x;
+                        hole_2_y = hole_2_center_y;                      
+        }*/
+        
+        
+                                //for level 1 the following tasks are done
+       
+       
+       int * num_hindrance_arr(coin_state * coins , float hole_x , float hole_y )
+{
+        static int num_hindrance[NO_COINS - 1];
+        
+        float coin_i_x;
+        float coin_i_y;
+        float coin_j_x;
+        float coin_j_y;
+ 
+        float rad_coin_i;
+        float rad_coin_j;        
+        float min_dis;
+        
+        for(int i = 0 ; i  < NO_COINS - 1 ; i ++)
+        {
+        
+             
+                coin_i_x = coins[i].center_x;
+                coin_i_y = coins[i].center_y;
+                rad_coin_i = coins[i].rad_f;                                          
+             
+             if(coins[i].state == 0)                                    //i.e. if the coin itself is in the hole there is no point of calculating the num of hindrance arrays in it hence
+             {
+                    num_hindrance[i] = NUM_HIN_INACT;
+                continue;
+             }
+             
+             
+             int counter = 0;
+                                                                                                                        //do not use the hindrance function now             
+             
+                printf("Where are you : % d  loop iteration outer_loop " , i );
+                getchar();
+             
+             //**************inner_loop_starts*************************
+             
+             for (int j = 0 ; j < NO_COINS - 1 ; j ++)
+             {
+             
+                 if(coins[j].state == 0)                        //since the coin itself is in the hole so it cannot be the hindrance
+                 {
+                        continue ; 
+                        
+                 }
+                 
+                     getchar();
+          
+                     rad_coin_j = coins[j].rad_f;
+                     min_dis = rad_coin_i + rad_coin_j  ;
+          
+                     printf("Where are you : % d  loop iteration inner_loop " , j  );
+                     getchar();
+             
+                if(j != i)
+                {
+          
+                              coin_j_x = coins[j].center_x;
+                              coin_j_y = coins[j].center_y;                                                
+                        
+                        if(coin_i_y == hole_y)
+                        {
+                                if(( hole_x - coin_i_x) * ( coin_j_x - coin_i_x) >= 0.00)
+                                {
+                                      if(abs(coin_j_y - hole_y) < min_dis)    
+                                      {
+                                                          counter++;
+                                      }
+                                }
+                        }
+                        
+                        else if(coin_i_x == hole_x)
+                        {
+                                if(( hole_y - coin_i_y) * ( coin_j_y - coin_i_y) >= 0.00)
+                                {
+                                      if(abs(coin_j_x - hole_x) < min_dis)    
+                                      {
+                                                          counter++;
+                                      }
+                                }
+                        }
+                        
+                        else
+                        {
+                               int m_line = ( ( coin_i_y - hole_y ) / ( coin_i_x - hole_x ) );
+                               
+                               if(points_same_side_line(hole_x , hole_y , coin_j_x , coin_j_y , coin_i_x , coin_i_y , ( ( -1 )  / (m_line) ) ) == true )
+                               {
+                                        if( ( (abs(( coin_j_y - coin_i_y ) - m_line * ( coin_j_x - coin_i_x))) / (sqrt (1 + m_line * m_line)) < min_dis  ) ) 
+                                        {
+                                                        counter++;                                              //Estsblished correct fully
+                                        }
+                               }                                                         
+                        }
+                        
+//                                     printf("Entered in inner_loop != outer_loop  : outer_loop" , j );
+    //                                 getchar();
+
+                }                
+                
+                //inner loop's one iteration ends                
+             }
+             
+             //*****************inner_loop_ends*********************  
+                  printf("Place inner out : i = %d  num_hindrance[i] = %d  :" ,i , num_hindrance[i] );
+                  getchar();
+            
+                 num_hindrance[i] = counter;
+                 
+             //outer_loop's one iteration ends 
+        }
+
+             printf("Place outermost  :" );
+             getchar();
+                
+        //outer_loop_ends
+                
+        return num_hindrance;
+}
+
+bool points_same_side_line(float x_point1 , float y_point1 , float x_point2 , float y_point2 , float x_line , float y_line , float m_line)
+{
+        float value_1 = ( y_point1 - y_line ) - m_line * ( x_point1 - x_line);
+        float value_2 = ( y_point2 - y_line ) - m_line * ( x_point2 - x_line);
+        
+        if(value_1 * value_2 < 0.00) //here some anamoly can be there and should be used the stl to acheive more generality in order to obtain sign function in order to remove the anamoly
+        {
+                return false;                                                   
+        }        
+        else
+        {
+                return true; 
+        }
+}
+
+

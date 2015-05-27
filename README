@@ -1,0 +1,74 @@
+################################################################################################
+
+					     README
+
+################################################################################################
+
+This repository contains code for multiplayer carom developed using C++ and OpenGL. The game has
+the following features:
+-> Allows single player (local) as well as multiplayer (2-4) gameplay
+-> Single Player Mode allows user to play against an artificial intelligence (AI)
+-> AI offers 3 levels of difficulty
+-> Multiplayer gameplay allows 2-4 players to play remotely over Local Area Network
+-> Graphics Rendered using OpenGL
+-> Implements an indepedently developed physics engine for collision detection and calculation
+-> Physics engine complies with classical mechanics laws
+-> Multiplayer gameplay implemented via network socket programming
+-> Multi-threaded implementation for exploiting thread level parallelism on multicore processors
+-> Distinct indepedent threads for handling GUI, Physics, AI, Networking
+-> Input interface through keyboard
+-> Provision to tweak collision parameters such as coeff. of friction and restitution
+-> Multiplayer Gameplay uses a dedicated server and distributed computation model. Only changes
+   from a client are relayed to other clients. Rest of the computations are done by clients in 
+   an independently
+
+################################################################################################
+
+Collaborators:
+Shantanu Chaudhary (shantanuchaudhary24@gmail.com)
+Chainn Singh (chain.singh38@gmail.com)
+
+################################################################################################
+
+Folder hierarchy:
+Makefile	: For building, cleaning project
+README		: Information about project code
+latex_document	: Tex file for formal documentation
+src		: source code files
+inc		: library headers
+
+################################################################################################
+
+Dependencies:
+-> C++ compiler
+-> OpenGL 3.0 or higher
+
+################################################################################################
+
+Setting up project code:
+-> Clone the repository
+
+Default Build:
+-> Use "make build" for building the program with default parameters (Single player carom)
+
+Executing game server:
+-> Use "make carom_server PORT=server_port NUM_PLAYERS=Num_of_players LEVEL=difficulty_of_game"
+
+Executing single player game:
+-> Use "make carom_singleplayer LEVEL=level_of_game_difficulty
+
+Executing multiplayer player game:
+-> Use "make carom_multiplayer ADDRESS=server_address PORT=port"
+
+Cleaning the build:
+-> Use "make clean" to remove the built binaries and object files.
+
+For changing the coefficient of friction
+-> Use any of the above build strategies along with the parameter "FRICTION=value_of_coeff"
+   Varies from 1-5
+
+For changing the coefficient of restitution
+-> Use any of the above build strategies along with the parameter "RESTITUTION=value_of_coeff"
+   Varies from 1-3
+
+################################################################################################
